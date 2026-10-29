@@ -1,0 +1,30 @@
+name: Template checks
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  template:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: astral-sh/setup-uv@v7
+      - run: node check-template.mts
+  container-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+      - run: uvx --from copier==9.18.2 copier copy --defaults . generated
+      - run: docker build -f generated/e2e_tests/Dockerfile -t vue-nestjs-template-e2e generated
+      - name: PostgreSQL and browser scenarios in containers
+        env:
+          E2E_IMAGE: vue-nestjs-template-e2e
+        run: docker compose -p vue-nestjs-template-check -f generated/e2e_tests/compose.yml up --abort-on-container-exit --exit-code-from test
+      - name: Stop disposable test services
+        if: always()
+        env:
+          E2E_IMAGE: vue-nestjs-template-e2e
+        run: docker compose -p vue-nestjs-template-check -f generated/e2e_tests/compose.yml down --volumes --remove-orphans

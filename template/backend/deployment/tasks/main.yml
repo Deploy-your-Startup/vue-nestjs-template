@@ -1,0 +1,11 @@
+- name: Apply application resources
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', item) }}"
+  loop:
+    - secrets.yml
+    - deployment.yml
+    - service.yml
+    - traefik-middleware.yml.j2
+    - ingress.yml
+  tags: backend
