@@ -1,0 +1,16 @@
+[tools]
+node = "24"
+[tasks.setup]
+run = "npm ci"
+[tasks.dev]
+run = "npm run dev"
+[tasks.build]
+run = "npm run build"
+[tasks.start]
+run = "npm start"
+[tasks.format]
+run = "npm run format"
+[tasks.lint]
+run = "npm run lint"
+[tasks.test]
+run = "npm test"

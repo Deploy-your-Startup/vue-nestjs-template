@@ -1,0 +1,30 @@
+{% raw %}name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - deployment/**
+      - '!deployment/shared-workflows.ref'
+      - backend/deployment/**
+      - frontend/deployment/**
+      - oauth2-proxy/deployment/**
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment which should be deployed'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+
+jobs:
+  deploy:
+    uses: {% endraw %}{{ github_username }}{% raw %}/{% endraw %}{{ deploy_repo_name }}{% raw %}/.github/workflows/deploy.yml@{% endraw %}{{ deploy_ref }}{% raw %}
+    with:
+      environment: ${{ github.event.inputs.environment || inputs.environment || 'production' }}
+    secrets:
+      VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
+{% endraw %}

@@ -1,0 +1,33 @@
+{% raw %}name: Build and Deploy Application
+on:
+  push:
+    branches: [main]
+    paths:
+      [
+        'backend/**',
+        'frontend/**',
+        'shared/**',
+        'scripts/**',
+        'tests/**',
+        'e2e_tests/**',
+        'package*.json',
+        '*config*',
+        'make.sh',
+        '.prettier*',
+        '.github/workflows/build-and-deploy-backend.yml',
+      ]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  application:
+    uses: {% endraw %}{{ github_username }}{% raw %}/{% endraw %}{{ deploy_repo_name }}{% raw %}/.github/workflows/build-and-deploy-service.yml@{% endraw %}{{ deploy_ref }}{% raw %}
+    with:
+      environment: production
+      service: backend
+      additional_build_context: application=.
+      run_lint: true
+      run_tests: true
+      run_e2e: true
+    secrets:
+      VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
+{% endraw %}

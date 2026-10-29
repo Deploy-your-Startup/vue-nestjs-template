@@ -1,0 +1,61 @@
+{% raw %}<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router';
+// prettier-ignore
+{% endraw %}const displayName = {{ display_name | to_json }};{% raw %}
+</script>
+
+<template>
+  <div class="workspace">
+    <aside class="sidebar">
+      <RouterLink to="/" class="brand"
+        ><span class="brand-mark">↗</span>{{ displayName }}</RouterLink
+      >
+      <div class="workspace-picker">
+        <span class="workspace-avatar">W</span>
+        <div>Your workspace<small>Personal project</small></div>
+        <span class="picker-chevron">⌄</span>
+      </div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav aria-label="Main navigation">
+        <RouterLink to="/" :class="{ active: $route.path === '/' }"
+          ><span aria-hidden="true">▦</span> Overview</RouterLink
+        >
+        <RouterLink
+          to="/shipped"
+          :class="{ active: $route.path === '/shipped' }"
+          ><span aria-hidden="true">✓</span> Shipped</RouterLink
+        >
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-spark">✳</span
+        ><strong>Start small.<br />Make something matter.</strong>
+        <p>Your next big thing starts with one small step.</p>
+        <RouterLink to="/">Let's build something <span>↗</span></RouterLink>
+      </div>
+      <div class="profile">
+        <span class="profile-avatar">Y</span>
+        <div>Your space<small>Local workspace</small></div>
+        <span class="online-dot" title="Local application"></span>
+      </div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar">
+        <div>
+          Workspace <span>/</span>
+          <strong>{{
+            $route.path === '/shipped' ? 'Shipped' : 'Overview'
+          }}</strong>
+        </div>
+        <span class="local-badge"><i></i> Running locally</span>
+      </header>
+      <main><RouterView /></main>
+      <footer>
+        <span>A little more progress, every day.</span
+        ><span
+          >Made for your next idea <span class="footer-star">✳</span></span
+        >
+      </footer>
+    </div>
+  </div>
+</template>
+{% endraw %}

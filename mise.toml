@@ -1,0 +1,6 @@
+[tools]
+node = "24"
+[tasks.lint]
+run = "node check-template.mts --lint-only"
+[tasks.test]
+run = "node check-template.mts"

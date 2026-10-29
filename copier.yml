@@ -1,0 +1,48 @@
+_min_copier_version: '9.18.2'
+_subdirectory: template
+_exclude:
+  - node_modules
+  - dist
+  - data
+  - test-results
+  - playwright-report
+project_name:
+  type: str
+  default: launchpad
+  validator: "{% if not (project_name | regex_search('^[a-z][a-z0-9-]*$')) %}Use a lowercase kebab-case name.{% endif %}"
+display_name:
+  type: str
+  default: Launchpad
+
+postgres_version:
+  type: str
+  default: '18.6'
+base_domain:
+  type: str
+  default: example.invalid
+github_username:
+  type: str
+  default: example-owner
+additional_domains:
+  type: str
+  default: '[]'
+deploy_repo_name:
+  type: str
+  default: deploy-your-startup
+deploy_ref:
+  type: str
+  default: main
+docker_registry_host:
+  type: str
+  default: 'ghcr.io/{{ github_username }}'
+k8s_namespace:
+  type: str
+  default: default
+ci_key:
+  type: str
+  default: ''
+user_key:
+  type: str
+  default: ''
+_skip_if_exists:
+  - deployment/group_vars/*.yml

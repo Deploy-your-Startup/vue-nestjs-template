@@ -1,0 +1,23 @@
+# Development only. CI and production provide DATABASE_URL directly.
+services:
+  db:
+    image: postgres:{{ postgres_version }}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-{{ project_name | replace('-', '_') }}_backend}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+    ports:
+      - '127.0.0.1:${POSTGRES_PORT:-55440}:5432'
+    volumes:
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-{{ project_name | replace('-', '_') }}_backend}',
+        ]
+      interval: 1s
+      timeout: 5s
+      retries: 60
+volumes:
+  db-data:

@@ -1,0 +1,21 @@
+import 'reflect-metadata';
+import { DataSource, type DataSourceOptions } from 'typeorm';
+import { TaskEntity, AppMeta } from './task.entity';
+
+export const schema = process.env.DATABASE_SCHEMA ?? 'public';
+if (!/^[a-z][a-z0-9_]{0,62}$/.test(schema)) {
+  throw new Error('DATABASE_SCHEMA must be a lowercase PostgreSQL identifier.');
+}
+
+export const dataSourceOptions: DataSourceOptions = {
+  type: 'postgres',
+  // prettier-ignore
+  url: process.env.DATABASE_URL ?? 'postgres://admin:admin@127.0.0.1:55440/{{ project_name | replace("-", "_") }}_backend',
+  schema,
+  entities: [TaskEntity, AppMeta],
+  migrations: [__dirname + '/migrations/*.js'],
+  synchronize: false,
+  migrationsRun: false,
+};
+
+export default new DataSource(dataSourceOptions);

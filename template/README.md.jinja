@@ -1,0 +1,50 @@
+# {{ display_name }}
+
+Plain Vue 3 + NestJS + PostgreSQL, with TypeScript throughout. NestJS serves Vue
+and `/api` from the same process, origin and application image.
+
+```sh
+npm ci
+npm run db:up
+npm run build
+SEED_DEMO=true npm start
+```
+
+Open http://localhost:3100. Use `npm run dev` to rebuild on source changes, then
+reload the browser. `PORT` controls the application port; `HOST` defaults to
+localhost. PostgreSQL binds localhost port 55440 and stores data in a named
+Docker volume. `POSTGRES_PORT` changes the database port; configure `DATABASE_URL`
+to match. `npm run db:stop` stops the development database without deleting data.
+Production and CI supply `DATABASE_URL` directly.
+
+`npm start` applies TypeORM migrations before starting Nest. `npm run db:migrate`
+applies migrations to an existing build. Schema synchronization is disabled.
+Example tasks require `SEED_DEMO=true` and seed once. They are not created by
+default in production.
+
+```sh
+npm run format
+npm run lint
+npx playwright install chromium
+npm test
+```
+
+Tests use a disposable PostgreSQL container, or an explicitly supplied
+`TEST_DATABASE_URL`/`DATABASE_URL`, and isolate data in randomly named schemas.
+They cover API validation and writes, SPA deep links and missing assets, browser
+CRUD/filtering, mobile layout, failure handling, migration idempotence, full
+process restarts and development-watch recovery. No database mocks are used.
+
+Build the single application image:
+
+```sh
+docker build --build-context application=. -f backend/Dockerfile -t {{ project_name }} backend
+```
+
+The shared deployment workflow builds only `backend`; this image contains both
+API and frontend. PostgreSQL is deployed using the shared role. `run_e2e: true`
+gates CI deployment on browser scenarios. Use the Startup CLI for deployment,
+Vault and template updates. No deployment is performed by local setup/tests.
+
+No authentication or analytics is configured. Before public launch add access
+control, reviewed operator/privacy information and verified backups/HTTPS.
