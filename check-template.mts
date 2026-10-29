@@ -25,6 +25,8 @@ try {
     "project_name=template-check",
     "--data",
     "display_name=Template Check",
+    "--data",
+    "k8s_namespace=template-check",
     import.meta.dirname,
     destination,
   ]);
@@ -40,6 +42,7 @@ try {
     readFileSync(join(destination, "frontend/src/App.vue"), "utf8"),
     /Template Check/,
   );
+  assert.match(readFileSync(join(destination, "deployment/group_vars/all.yml"), "utf8"), /k8s_namespace: "template-check"/);
   run("npm", ["ci"]);
   run("npm", ["run", "lint"]);
   if (!process.argv.includes("--lint-only")) {

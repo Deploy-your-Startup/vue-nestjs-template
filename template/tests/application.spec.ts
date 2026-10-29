@@ -90,7 +90,13 @@ test('GIVEN invalid input WHEN writing tasks THEN validation rejects it without 
     ).status(),
   ).toBe(400);
   expect((await request.delete('/api/tasks/not-a-uuid')).status()).toBe(400);
-  expect((await request.patch('/api/tasks/not-a-uuid/status', { data: { status: 'shipped' } })).status()).toBe(400);
+  expect(
+    (
+      await request.patch('/api/tasks/not-a-uuid/status', {
+        data: { status: 'shipped' },
+      })
+    ).status(),
+  ).toBe(400);
   expect(await (await request.get('/api/tasks')).json()).toEqual(before);
 });
 

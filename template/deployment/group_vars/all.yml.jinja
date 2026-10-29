@@ -3,7 +3,7 @@ project_name: "{% endraw %}{{ project_name }}{% raw %}"
 
 # BYOS projects use their project name here. Existing deployments stay in
 # Kubernetes' default namespace when this value is absent.
-k8s_namespace: "§§deploy_your_startup.k8s_namespace§§"
+k8s_namespace: "{% endraw %}{{ k8s_namespace }}{% raw %}"
 
 create_load_balancer: false
 

@@ -13,7 +13,7 @@ COPY --from=application /tsconfig.backend.json /tsconfig.frontend.json /tsconfig
 RUN npm run build
 
 FROM build AS test
-RUN npx playwright install --with-deps chromium && mkdir -p /reports
+RUN npx playwright install --with-deps --only-shell chromium && rm -rf /var/lib/apt/lists/* /root/.npm/_cacache && mkdir -p /reports
 CMD ["./make.sh", "test"]
 
 FROM build AS production-dependencies
