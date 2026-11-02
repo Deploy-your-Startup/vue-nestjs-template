@@ -21,6 +21,8 @@ try {
     "copier",
     "copy",
     "--defaults",
+    "--vcs-ref",
+    "HEAD",
     "--data",
     "project_name=template-check",
     "--data",
@@ -43,6 +45,10 @@ try {
     /Template Check/,
   );
   assert.match(readFileSync(join(destination, "deployment/group_vars/all.yml"), "utf8"), /k8s_namespace: "template-check"/);
+  // Rendered GitHub expressions must survive Copier and isolate PR cancellation.
+  const workflow = readFileSync(join(destination, ".github/workflows/build-and-deploy-backend.yml"), "utf8");
+  assert.ok(workflow.includes("github.event.pull_request.number || github.run_id"));
+  assert.ok(workflow.includes("cancel-in-progress: ${{ github.event_name == 'pull_request' }}"));
   run("npm", ["ci"]);
   run("npm", ["run", "lint"]);
   if (!process.argv.includes("--lint-only")) {
