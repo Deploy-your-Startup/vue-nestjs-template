@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:24-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /app
 COPY --from=application /package.json /package-lock.json ./
 RUN npm ci
@@ -19,7 +19,7 @@ CMD ["./make.sh", "test"]
 FROM build AS production-dependencies
 RUN npm prune --omit=dev
 
-FROM node:24-bookworm-slim AS runtime
+FROM node:26-bookworm-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3100
 COPY --from=production-dependencies --chown=node:node /app/node_modules ./node_modules
