@@ -49,6 +49,8 @@ try {
   const workflow = readFileSync(join(destination, ".github/workflows/build-and-deploy-backend.yml"), "utf8");
   assert.ok(workflow.includes("github.event.pull_request.number || github.run_id"));
   assert.ok(workflow.includes("cancel-in-progress: ${{ github.event_name == 'pull_request' }}"));
+  // The shared build lives under another owner, so the caller grants what it nests.
+  assert.ok(workflow.includes("      id-token: write\n"));
   run("npm", ["ci"]);
   run("npm", ["run", "lint"]);
   if (!process.argv.includes("--lint-only")) {
