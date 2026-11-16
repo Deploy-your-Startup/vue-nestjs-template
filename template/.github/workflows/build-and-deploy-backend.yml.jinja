@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   application:
-    uses: {% endraw %}{{ github_username }}{% raw %}/{% endraw %}{{ deploy_repo_name }}{% raw %}/.github/workflows/build-and-deploy-service.yml@{% endraw %}{{ deploy_ref }}{% raw %}
+    uses: {% endraw %}{{ deploy_repository }}{% raw %}/.github/workflows/build-and-deploy-service.yml@{% endraw %}{{ deploy_ref }}{% raw %}
     with:
       environment: production
       service: backend

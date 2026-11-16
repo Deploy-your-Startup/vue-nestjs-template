@@ -36,8 +36,9 @@ updates:
     schedule:
       interval: monthly
     ignore:
-      # Shared deployment workflow pins are maintained through startup sync.
-      - dependency-name: '*/deploy-your-startup/*'
+      # Shared deployment workflow pins are moved by `startup update`, together
+      # with the project's role pin, never by Dependabot alone.
+      - dependency-name: 'Deploy-your-Startup/deploy/*'
     groups:
       routine-updates:
         patterns: ['*']

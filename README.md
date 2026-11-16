@@ -57,7 +57,8 @@ startup. Deployment follows the shared PostgreSQL, Vault, namespace and service
 workflow contracts. Only the `backend` application service is built and deployed;
 it contains both NestJS and Vue. Browser E2E remains enabled in CI (`run_e2e: true`).
 Existing clusters use the standard `--cluster` descriptor flow. Application
-updates use `startup template update`; shared roles use `startup sync`.
+updates use `startup template update`; shared roles and workflows move to a
+newer `Deploy-your-Startup/deploy` release with `startup update`.
 
 This template has no login or analytics. Before public launch, add the required
 access control, review operator/privacy details and verify backups, DNS and
