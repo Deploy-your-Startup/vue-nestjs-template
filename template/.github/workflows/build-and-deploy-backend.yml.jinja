@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      [
+      [".github/workflows/startup.yml",
         'backend/**',
         'frontend/**',
         'shared/**',
@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   application:
-    uses: {% endraw %}{{ deploy_repository }}{% raw %}/.github/workflows/build-and-deploy-service.yml@{% endraw %}{{ deploy_ref }}{% raw %}
+    uses: ./.github/workflows/startup.yml
     permissions:
       contents: read
       actions: read
@@ -33,6 +33,7 @@ jobs:
       packages: write
       id-token: write
     with:
+      operation: build
       environment: production
       service: backend
       additional_build_context: application=.
@@ -41,4 +42,4 @@ jobs:
       run_e2e: true
     secrets:
       VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
-{% endraw %}
+{% endraw %}{% endraw %}
