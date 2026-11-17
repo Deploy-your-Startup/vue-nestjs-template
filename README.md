@@ -43,13 +43,13 @@ server. Tests create and remove only their own randomly named schemas.
 ## Startup Factory
 
 Register this repository as `vue-nestjs-template` under Factory tooling. The CLI
-integration adds **Vue + NestJS** to `startup bootstrap`; use a tested immutable
-revision until a tagged template release is available:
+integration adds **Vue + NestJS** to `startup bootstrap`. Use CLI v0.1.52 or newer
+for the single deployment version:
 
 ```sh
 startup bootstrap --kind fullstack \
   --template https://github.com/Deploy-your-Startup/vue-nestjs-template.git \
-  --template-version <reviewed-commit>
+  --template-version v0.1.4
 ```
 
 Bootstrap creates infrastructure and deploys; use Copier above for a local-only
@@ -63,3 +63,8 @@ newer `Deploy-your-Startup/deploy` release with `startup update`.
 This template has no login or analytics. Before public launch, add the required
 access control, review operator/privacy details and verify backups, DNS and
 HTTPS. Local checks do not establish a successful production deployment.
+
+The generated project's deployment version is configured once in
+`.github/workflows/startup.yml`. Other workflows and local CLI operations use
+that reference. `startup update` changes it; no separate role pin or checksum
+files are required. A successful Actions deployment run records execution.

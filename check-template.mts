@@ -32,6 +32,7 @@ try {
     import.meta.dirname,
     destination,
   ]);
+  run("python3", [join(import.meta.dirname, "tests/deployment_version_check.py"), destination]);
   const manifest = JSON.parse(
     readFileSync(join(destination, "package.json"), "utf8"),
   ) as { name: string };
