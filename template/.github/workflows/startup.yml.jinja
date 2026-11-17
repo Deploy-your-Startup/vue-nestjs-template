@@ -70,6 +70,10 @@
         description: build, deploy or infrastructure
         type: string
         required: true
+      health_url:
+        description: Optional public HTTPS health endpoint checked after deployment
+        type: string
+        default: ""
     secrets:
       VAULT_PASSWORD:
         required: true
@@ -92,6 +96,7 @@ jobs:
       platforms: ${{ inputs.platforms }}
       additional_build_context: ${{ inputs.additional_build_context }}
       operation: ${{ inputs.operation }}
+      health_url: ${{ inputs.health_url }}
     secrets:
       VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
-{% endraw %}
+{% endraw -%}
