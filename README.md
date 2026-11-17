@@ -43,13 +43,13 @@ server. Tests create and remove only their own randomly named schemas.
 ## Startup Factory
 
 Register this repository as `vue-nestjs-template` under Factory tooling. The CLI
-integration adds **Vue + NestJS** to `startup bootstrap`; use a tested immutable
-revision until a tagged template release is available:
+integration adds **Vue + NestJS** to `startup bootstrap`. Use CLI v0.1.52 or newer
+for the single deployment version:
 
 ```sh
 startup bootstrap --kind fullstack \
   --template https://github.com/Deploy-your-Startup/vue-nestjs-template.git \
-  --template-version <reviewed-commit>
+  --template-version v0.1.4
 ```
 
 Bootstrap creates infrastructure and deploys; use Copier above for a local-only
