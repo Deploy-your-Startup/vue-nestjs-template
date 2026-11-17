@@ -5,18 +5,18 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/startup.yml"
+      - '.github/workflows/startup.yml'
       - deployment/**
-      - "!deployment/shared-workflows.ref"
+      - '!deployment/shared-workflows.ref'
       - backend/deployment/**
       - frontend/deployment/**
       - oauth2-proxy/deployment/**
   workflow_dispatch:
     inputs:
       environment:
-        description: "Environment which should be deployed"
+        description: 'Environment which should be deployed'
         required: true
-        default: "production"
+        default: 'production'
         type: choice
         options:
           - production
