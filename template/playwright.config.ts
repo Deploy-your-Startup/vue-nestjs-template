@@ -9,13 +9,14 @@ export default defineConfig({
     : 'test-results',
   fullyParallel: false,
   workers: 1,
+  retries: process.env.CI ? 1 : 0,
   reporter: 'list',
   metadata: { schema },
   globalTeardown: './tests/cleanup.ts',
   use: {
     baseURL: 'http://127.0.0.1:3199',
     browserName: 'chromium',
-    trace: 'retain-on-failure',
+    trace: 'on-first-retry',
   },
   webServer: {
     command: 'npm start',
