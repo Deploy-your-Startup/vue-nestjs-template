@@ -33,6 +33,11 @@ try {
     destination,
   ]);
   run("python3", [join(import.meta.dirname, "tests/deployment_version_check.py"), destination]);
+  // GIVEN a rendered deployment, WHEN its locked CLI loads safe-access commands,
+  // THEN the credential-protection runtime is present independently of global startup.
+  for (const command of ["inspect", "rotate-client-ca"]) {
+    run("uv", ["run", "--locked", "--project", join(destination, "deployment"), "startup", "cluster", command, "--help"]);
+  }
   const manifest = JSON.parse(
     readFileSync(join(destination, "package.json"), "utf8"),
   ) as { name: string };
